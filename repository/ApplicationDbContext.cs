@@ -18,7 +18,6 @@ namespace repository
         public DbSet<Pet> Pet { get; set; } = default!;
         public DbSet<AdoptionApplication> AdoptionApplication { get; set; } = default!;
         public DbSet<Agency> Agencies { get; set; } = default!;
-        public DbSet<TravelPackage> TravelPackages { get; set; } = default!;
 
 
 

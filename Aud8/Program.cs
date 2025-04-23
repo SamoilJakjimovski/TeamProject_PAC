@@ -29,7 +29,6 @@ builder.Services.AddScoped(typeof(IUserRepository), typeof(UserRepository));
 builder.Services.AddScoped(typeof(IPetRepository), typeof(PetRepository));
 builder.Services.AddScoped(typeof(IAdoptionApplicationRepository), typeof(AdoptionApplicationRepository));
 builder.Services.AddScoped(typeof(IAgencyRepository), typeof(AgencyRepository));
-builder.Services.AddScoped(typeof(ITravelPackageRepository), typeof(TravelPackageRepository));
 
 
 builder.Services.Configure<StripeSettings>(builder.Configuration.GetSection("Stripe"));
@@ -38,7 +37,6 @@ builder.Services.Configure<StripeSettings>(builder.Configuration.GetSection("Str
 builder.Services.AddTransient<IPetService, PetService>();
 builder.Services.AddTransient<IAdoptionApplicationService, AdoptionApplicationService>();
 builder.Services.AddTransient<IAgencyService, AgencyService>();
-builder.Services.AddTransient<ITravelPackageService, TravelPackageService>();
 
 
 
