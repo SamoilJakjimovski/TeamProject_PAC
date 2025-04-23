@@ -253,6 +253,20 @@ namespace PetAdoptionCenter.Web.Controllers
             return RedirectToAction("MyApplications", new {id = adoptionApplication.AdopterId});
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult RateUsers(Guid userId, int rating, Guid id)
+        {
+            var user = _userRepository.Get(userId.ToString());
+            user.NumberRatings++;
+            user.Rating = (user.Rating * (user.NumberRatings - 1) + rating) / (double)user.NumberRatings;
+            _userRepository.Update(user);
+
+
+            return RedirectToAction("Details", new { id = id });
+        }
+
+
        /* private bool AdoptionApplicationExists(Guid id)
         {
             return _context.AdoptionApplication.Any(e => e.Id == id);

@@ -16,6 +16,7 @@ using PetAdoptionCenter.Domain.enums;
 using PetAdoptionCenter.Domain.Models;
 using PetAdoptionCenter.Service.Interface;
 using repository;
+using repository.Interface;
 
 namespace PetAdoptionCenter.Web.Controllers
 {
@@ -24,13 +25,14 @@ namespace PetAdoptionCenter.Web.Controllers
         private readonly IPetService _petService;
         private readonly IAdoptionApplicationService _adoptionApplicationService;
         private readonly UserManager<PetAdoptionCenterUser> _userManager;
+        private readonly IUserRepository _userRepository;
 
-
-        public PetsController(IPetService petService, IAdoptionApplicationService adoptionApplicationService, UserManager<PetAdoptionCenterUser> userManager)
+        public PetsController(IPetService petService, IAdoptionApplicationService adoptionApplicationService, UserManager<PetAdoptionCenterUser> userManager, IUserRepository userRepository)
         {
             _petService = petService;
             _adoptionApplicationService = adoptionApplicationService;
             _userManager = userManager;
+            _userRepository = userRepository;
             ComponentInfo.SetLicense("FREE-LIMITED-KEY");
         }
 
@@ -213,6 +215,18 @@ namespace PetAdoptionCenter.Web.Controllers
 
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult RateUsers(Guid userId, int rating, Guid id)
+        {
+            var user = _userRepository.Get(userId.ToString());
+            user.NumberRatings++;
+            user.Rating = (user.Rating * (user.NumberRatings - 1) + rating) / (double)user.NumberRatings;
+            _userRepository.Update(user);
+
+
+            return RedirectToAction("Details", new { id = id });
+        }
 
 
         public FileContentResult ExportAllPetsByShelter(string? id)

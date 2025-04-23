@@ -31,17 +31,36 @@
             <div class="form-group mb-4" style="text-align: right;">
                 <div style="display: flex; justify-content: flex-start; align-items: center; gap: 1rem;">
                     <h4 class="fs-5" style="margin-bottom: 0;">Adopter Email:</h4>
-                    <p class="fs-5" style="margin-bottom: 0;">@Model.Adopter.LastName</p>
+                    <p class="fs-5" style="margin-bottom: 0;">@Model.Adopter.Email</p>
                 </div>
             </div>
             <div class="form-group mb-4" style="text-align: right;">
                 <div style="display: flex; justify-content: flex-start align-items: center; gap: 1rem;">
-                    <h4 class="fs-5" style="margin-bottom: 0;">Pet ID:</h4>
-                    <p class="fs-5" style="margin-bottom: 0;">@Model.Pet.Id</p>
+                    <h4 class="fs-5" style="margin-bottom: 0;">Pet Name:</h4>
+                    <p class="fs-5" style="margin-bottom: 0;">@Model.Pet.Name</p>
+                </div>
+            </div>
+            <div class="form-group mb-4" style="text-align: right;">
+                <div style="display: flex; justify-content: flex-start align-items: center; gap: 1rem;">
+                    <h4 class="fs-5" style="margin-bottom: 0;">Adopter Rating:</h4>
+                    <p class="fs-5" style="margin-bottom: 0;">
+                        @(Model.Adopter.Rating.HasValue ? Model.Adopter.Rating.Value.ToString("F1") : "N/A")
+                    </p>
                 </div>
             </div>
 
 
+            <div>
+                <form method="post" asp-action="RateUsers">
+                    <input type="hidden" value="@Model.Adopter.Id" name="userId"/>
+                    <input type="hidden" value="@Model.Id" name="id"/>
+                    <div class="form-group mb-4 w-50">
+                        <label class="form-label fs-5">Rate Adopter</label>
+                        <input type="number" name="rating" class="form-control fs-5" max="5" min="1" value="1"/>
+                        <button type="submit" value="Rate" class="btn btn-success m-2">Rate</button>
+                    </div>
+                </form>
+            </div>
 
 
             <div style="position: relative; text-align: center; margin: 70px 0;">
