@@ -1,0 +1,110 @@
+﻿@using PetAdoptionCenter.Domain.Models
+@model PetAdoptionCenter.Domain.Models.Pet
+
+@{
+    ViewData["Title"] = "Details";
+    var AppForms = ViewData["AppForms"] as List<AdoptionApplication>;
+    var loggedInUser = ViewData["LoggedInUser"] as domain.Identity.PetAdoptionCenterUser;
+}
+
+<div class="container mt-4">
+    <div class="">
+        <div class="d-flex gap-5">
+            <div class="">
+                <!-- Pet Image -->
+                <img width="600px" src="@(string.IsNullOrEmpty(Model.PhotoUrl) ? "https://d339b5nop2tkmp.cloudfront.net/assets/listing/large_default-f37c3b2ddc539b7721ffdbd4c88987add89f2ef0fd77a71d0d44a6cf3104916e.png" : Model.PhotoUrl)"
+                    style="border-radius: 10px;"     
+                alt="@Model.Name" />
+            </div>
+            <div class="">
+                <!-- Pet Details -->
+                <dl class="row">
+                    <dt class="col-sm-7" style="font-size: 1.5rem;">
+                        @Html.DisplayFor(model => model.Name)
+                    </dt>
+                    <dd class="col-sm-5 d-flex justify-content-end" style="font-size: 1.25rem;">
+                        @if (Model.PetStatus == PetAdoptionCenter.Domain.enums.PetStatus.ADOPTED)
+                        {
+                            <div class="status-label" style=" background-color: red; color: white; padding: 5px 10px; border-radius: 5px; width: fit-content">
+                                Adopted
+                                <i class="bi bi-check-circle"></i>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="status-label" style=" background-color: limegreen; color: white; padding: 5px 10px; border-radius: 5px; width: fit-content">
+                                Available for adoption
+                                <i class="bi bi-check-circle"></i>
+                            </div>
+                        }
+                    </dd>
+                    <hr />
+                    <dt class="col-sm-5" style="font-size: 1.25rem;">
+                        @Html.DisplayNameFor(model => model.Age)
+                    </dt>
+                    <dd class="col-sm-7" style="font-size: 1.25rem;">
+                        @Html.DisplayFor(model => model.Age)
+                    </dd>
+                    <dt class="col-sm-5" style="font-size: 1.25rem;">
+                        @Html.DisplayNameFor(model => model.PetType)
+                    </dt>
+                    <dd class="col-sm-7" style="font-size: 1.25rem;">
+                        @Html.DisplayFor(model => model.PetType)
+                    </dd>
+                    <dt class="col-sm-5" style="font-size: 1.25rem;">
+                        @Html.DisplayNameFor(model => model.Breed)
+                    </dt>
+                    <dd class="col-sm-7" style="font-size: 1.25rem;">
+                        @Html.DisplayFor(model => model.Breed)
+                    </dd>
+                    <dt class="col-sm-5" style="font-size: 1.25rem;">
+                        @Html.DisplayNameFor(model => model.Sex)
+                    </dt>
+                    <dd class="col-sm-7" style="font-size: 1.25rem;">
+                        @Html.DisplayFor(model => model.Sex)
+                    </dd>
+                    <dt class="col-sm-5" style="font-size: 1.25rem;">
+                        @Html.DisplayNameFor(model => model.IsHouseTrained)
+                    </dt>
+                    <dd class="col-sm-7" style="font-size: 1.25rem;">
+                        @Html.DisplayFor(model => model.IsHouseTrained)
+                    </dd>
+                    <dt class="col-sm-5" style="font-size: 1.25rem;">
+                        @Html.DisplayNameFor(model => model.FavouriteThings)
+                    </dt>
+                    <dd class="col-sm-7" style="font-size: 1.25rem;">
+                        @Html.DisplayFor(model => model.FavouriteThings)
+                    </dd>
+                    <dt class="col-sm-5" style="font-size: 1.25rem;">
+                        @Html.DisplayNameFor(model => model.HomeRequirements)
+                    </dt>
+                    <dd class="col-sm-7" style="font-size: 1.25rem;">
+                        @Html.DisplayFor(model => model.HomeRequirements)
+                    </dd>
+                    <dt class="col-sm-5" style="font-size: 1.25rem;">
+                        @Html.DisplayNameFor(model => model.Shelter)
+                    </dt>
+                    <dd class="col-sm-7" style="font-size: 1.25rem;">
+                        @Html.DisplayFor(model => model.Shelter.FirstName)
+                    </dd>
+                </dl>
+                @if (User.IsInRole("Adopter") && Model.PetStatus == PetAdoptionCenter.Domain.enums.PetStatus.AVAILABLE_FOR_ADOPTION)
+                {
+                    <div class="mt-2">
+                        <a asp-controller="AdoptionApplications" asp-action="Apply" asp-route-petId="@Model?.Id" class="btn btn-success mb-2 fs-5" style="border-radius: 10px;"><i class="bi bi-heart fs-6"></i>  Apply to Adopt </a>
+                        <a asp-controller="Pets" asp-action="CreatePetDetailsDocument" asp-route-id="@Model?.Id" class="btn btn-secondary mb-2 fs-5" style="border-radius: 10px;"><i class="bi bi-cloud-download fs-5"></i></a>
+                    </div>
+                }
+            </div>
+        </div>
+        <div>
+            <!-- Pet Description and Button -->
+            <div class="mt-4">
+                <h4 style="font-size: 1.5rem;">Description</h4>
+                <p style="font-size: 1.25rem;">@Html.DisplayFor(model => model.Description)</p>
+                
+                <!-- Removed Back to List button -->
+            </div>
+        </div>
+    </div>
+</div>

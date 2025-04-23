@@ -1,0 +1,109 @@
+﻿@model PetAdoptionCenter.Domain.Models.Pet
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1 class="text-center">Edit selected pet</h1>
+
+<div class="d-flex justify-content-center">
+    <div class="col-md-8">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="d-flex gap-4">
+                <div class="form-group w-100">
+                    <label asp-for="Name" class="control-label"></label>
+                    <input asp-for="Name" class="form-control" style="font-size: 1.2rem;" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+                <div class="form-group w-100">
+                    <label asp-for="Age" class="control-label"></label>
+                    <input asp-for="Age" class="form-control" style="font-size: 1.2rem;" />
+                    <span asp-validation-for="Age" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="d-flex gap-4">
+                <div class="form-group w-100">
+                    <label asp-for="PetType" class="control-label"></label>
+                    <input asp-for="PetType" class="form-control" style="font-size: 1.2rem;" />
+                    <span asp-validation-for="PetType" class="text-danger"></span>
+                </div>
+                <div class="form-group w-100">
+                    <label asp-for="Breed" class="control-label"></label>
+                    <input asp-for="Breed" class="form-control" style="font-size: 1.2rem;" />
+                    <span asp-validation-for="Breed" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="d-flex gap-4">
+                <div class="form-group w-100">
+                    <label asp-for="Sex" class="control-label"></label>
+                    <input asp-for="Sex" class="form-control" style="font-size: 1.2rem;" />
+                    <span asp-validation-for="Sex" class="text-danger"></span>
+                </div>
+                <div class="form-group w-100">
+                    <label asp-for="Price" class="control-label"></label>
+                    <input asp-for="Price" class="form-control" style="font-size: 1.2rem;" />
+                    <span asp-validation-for="Price" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="FavouriteThings" class="control-label"></label>
+                <input asp-for="FavouriteThings" class="form-control" style="font-size: 1.2rem;" />
+                <span asp-validation-for="FavouriteThings" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Description" class="control-label"></label>
+                <textarea asp-for="Description" class="form-control" rows="2" style="font-size: 1.2rem;"></textarea>
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+
+           @*  <div class="form-group">
+                <label asp-for="HomeRequirements" class="control-label"></label>
+                <input asp-for="HomeRequirements" class="form-control" style="font-size: 1.2rem;" />
+                <span asp-validation-for="HomeRequirements" class="text-danger"></span>
+            </div> *@
+
+            <div class="form-group mt-3 mb-3">
+                <div class="form-check">
+                    <input class="form-check-input" asp-for="IsHouseTrained" />
+                    <label class="form-check-label" style="font-size: 1.2rem;">@Html.DisplayNameFor(model => model.IsHouseTrained)</label>
+                </div>
+            </div>
+
+            <div class="d-flex gap-2">
+                <div class="form-group w-100">
+                    <label asp-for="PhotoUrl" class="control-label"></label>
+                    <input asp-for="PhotoUrl" class="form-control" style="font-size: 1.2rem;" />
+                    <span asp-validation-for="PhotoUrl" class="text-danger"></span>
+                </div>
+                <div class="form-group w-25 d-flex align-items-end">
+                    <input type="submit" value="Save" class="btn btn-warning w-100" style="font-size: 1.2rem; border: 1px solid gray; color: black" />
+                </div>
+            </div>
+
+            <input type="hidden" asp-for="PetStatus" />
+            <input type="hidden" asp-for="ShelterId" />
+            <input type="hidden" asp-for="Id" />
+        </form>
+
+        <!-- Three small images in a row -->
+        <div class="d-flex justify-content-center" style="position: relative; top: -70px; z-index: -1;">
+            <div style="width: 500px; height: 300px; overflow: hidden;">
+                <img src="https://img.freepik.com/free-vector/flat-illustration-people-with-pets-collection_23-2148977897.jpg?t=st=1724576273~exp=1724579873~hmac=df5982c72717b86655935f4de5947b31435fdf4739de3d159137878c3842f4d8&w=996" alt="Pet 1" class="mx-2" style="width: 100%; object-fit: cover; object-position: 50% 0%;" />
+            </div>
+        </div>
+
+
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

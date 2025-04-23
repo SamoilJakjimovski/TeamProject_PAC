@@ -1,0 +1,113 @@
+﻿@using System.Security.Claims
+@model IEnumerable<PetAdoptionCenter.Domain.Models.Pet>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<!-- Button Container for Fixed Position -->
+<div class="fixed-buttons">
+    <a asp-action="Create" class="btn btn-success">
+        <i class="bi bi-plus-circle fs-4"></i>
+    </a>
+    <a asp-action="ExportAllPetsByShelter" asp-route-id="@User.FindFirstValue(ClaimTypes.NameIdentifier)" class="btn btn-secondary">
+        <i class="bi bi-cloud-arrow-down fs-4"></i>
+    </a>
+</div>
+
+<div id="petsContainer" class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-2 w-75 mx-auto mt-4">
+    @foreach (var item in Model)
+    {
+        <div class="col pet-card"
+             data-name="@item.Name.ToLower()"
+             data-house-trained="@(item.IsHouseTrained ? "yes" : "no")"
+             data-status="@item.PetStatus"
+             style="cursor: pointer;"
+             onclick="window.location.href='@Url.Action("Details", "Pets", new { id = item.Id })';">
+            <div class="card" style="height: 560px; border-radius: 15px; position: relative;">
+                <img src="@(string.IsNullOrEmpty(item.PhotoUrl) ? "https://d339b5nop2tkmp.cloudfront.net/assets/listing/large_default-f37c3b2ddc539b7721ffdbd4c88987add89f2ef0fd77a71d0d44a6cf3104916e.png" : item.PhotoUrl)"
+                     class="card-img"
+                     style="height: 300px; object-fit: cover; border-radius: 15px;">
+                @if (item.PetStatus == PetAdoptionCenter.Domain.enums.PetStatus.ADOPTED)
+                {
+                    <div class="status-label" style="position: absolute; top: 10px; right: 10px; background-color: rgba(0, 128, 0, 0.5); color: white; padding: 5px 10px; border-radius: 5px;">
+                        Adopted
+                        <i class="bi bi-check-circle"></i>
+                    </div>
+                }
+                <div class="card-body">
+                    <h4 class="card-title m-1">
+                        @item.Name
+                    </h4>
+                    <hr />
+                    <p class="card-text d-flex gap-2">
+                        <img width="25px" src="https://cdn-icons-png.freepik.com/512/5562/5562272.png" />
+                        @if (item.Age > 0)
+                        {
+                            <span>@item.Age years old</span>
+                        }
+                        else
+                        {
+                            <span>Not specified</span>
+                        }
+                    </p>
+                    <p class="card-text d-flex gap-2" style="width: 100%">
+                        <img width="20px" src="https://cdn-icons-png.freepik.com/256/738/738822.png?semt=ais_hybrid" />
+
+                        @if (item.IsHouseTrained)
+                        {
+                            <span class="text-success">Yes</span>
+                            <i class="bi bi-check-circle-fill text-success"></i>
+                        }
+                        else
+                        {
+                            <span class="text-danger">No</span>
+                            <i class="bi bi-x-circle-fill text-danger"></i>
+                        }
+                    </p>
+                    <p class="card-text d-flex gap-2">
+                        <img width="20px" src="https://cdn-icons-png.freepik.com/512/107/107777.png" />
+                        <span>@item.Shelter.FirstName (Pet Shelter)</span>
+                    </p>
+
+                    <div class="d-flex justify-content-lg-start gap-2">
+                        @if (item.PetStatus == PetAdoptionCenter.Domain.enums.PetStatus.AVAILABLE_FOR_ADOPTION)
+                        {
+                            <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger"><i class="bi bi-trash"></i></a>
+                        }
+                        else
+                        {
+                            <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger disabled"><i class="bi bi-trash"></i></a>
+                    
+                        }
+
+                        @if (item.PetStatus == PetAdoptionCenter.Domain.enums.PetStatus.AVAILABLE_FOR_ADOPTION)
+                        {
+                            <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-outline-dark"><i class="bi bi-pencil-square"></i></a>
+                        }
+                        <a style="border: none;" asp-controller="AdoptionApplications" asp-action="Applications" asp-route-petId="@item?.Id" class="btn btn-secondary">Applications <i class="bi bi-file-earmark-check"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+<!-- CSS for Fixed Buttons -->
+<style>
+    .fixed-buttons {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        z-index: 1000;
+    }
+
+        .fixed-buttons .btn {
+            border-radius: 15px;
+            font-size: 1rem;
+            padding: 10px 15px;
+        }
+</style>

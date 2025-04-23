@@ -1,0 +1,98 @@
+﻿@model PetAdoptionCenter.Domain.Models.AdoptionApplication
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1 class="text-center mb-4">Apply to Adopt</h1>
+<h5 class="text-center mb-5">*This application form will be reviewed by the current owner.</h5>
+
+<div class="container">
+    <div class="row">
+        <!-- Left Column: Form Fields -->
+        <div class="col-md-6">
+            <form asp-action="Apply" class="mx-auto">
+                <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                <input asp-for="PetId" type="hidden" />
+
+                <div class="form-group mb-4">
+                    <label asp-for="Question1" class="form-label fs-5">Why are you interested in adopting a pet?</label>
+                    <textarea asp-for="Question1" class="form-control fs-5 short-textarea"></textarea>
+                    <span asp-validation-for="Question1" class="text-danger"></span>
+                </div>
+                <div class="form-group mb-4">
+                    <label asp-for="Question2" class="form-label fs-5">Have you owned pets before?</label>
+                    <textarea asp-for="Question2" class="form-control fs-5 short-textarea"></textarea>
+                    <span asp-validation-for="Question2" class="text-danger"></span>
+                </div>
+                <div class="form-group mb-4">
+                    <label asp-for="Question3" class="form-label fs-5">Do you have any other pets? If so, what are they?</label>
+                    <textarea asp-for="Question3" class="form-control fs-5 short-textarea"></textarea>
+                    <span asp-validation-for="Question3" class="text-danger"></span>
+                </div>
+                <div class="form-group mb-4">
+                    <label asp-for="Question4" class="form-label fs-5">What is your living situation (e.g., house, apartment)?</label>
+                    <textarea asp-for="Question4" class="form-control fs-5 short-textarea"></textarea>
+                    <span asp-validation-for="Question4" class="text-danger"></span>
+                </div>
+                <div class="form-group mb-4">
+                    <label asp-for="Question5" class="form-label fs-5">How many people live in your household and what are their ages?</label>
+                    <textarea asp-for="Question5" class="form-control fs-5 short-textarea"></textarea>
+                    <span asp-validation-for="Question5" class="text-danger"></span>
+                </div>
+                <div class="form-group mb-4">
+                    <label asp-for="Question6" class="form-label fs-5">What is your work schedule like and how many hours will the pet be alone?</label>
+                    <textarea asp-for="Question6" class="form-control fs-5 short-textarea"></textarea>
+                    <span asp-validation-for="Question6" class="text-danger"></span>
+                </div>
+                <div class="form-group mb-4">
+                    <label asp-for="Question7" class="form-label fs-5">Do you have a plan for the pet’s care during vacations or emergencies?</label>
+                    <textarea asp-for="Question7" class="form-control fs-5 short-textarea"></textarea>
+                    <span asp-validation-for="Question7" class="text-danger"></span>
+                </div>
+                <div class="form-group mb-4">
+                    <label asp-for="Question8" class="form-label fs-5">Are you prepared for the financial costs of pet ownership, including food, veterinary care, and other expenses?</label>
+                    <textarea asp-for="Question8" class="form-control fs-5 short-textarea"></textarea>
+                    <span asp-validation-for="Question8" class="text-danger"></span>
+                </div>
+                <div class="form-group mb-4">
+                    <label asp-for="Question9" class="form-label fs-5">How will you handle behavioral issues or training needs?</label>
+                    <textarea asp-for="Question9" class="form-control fs-5 short-textarea"></textarea>
+                    <span asp-validation-for="Question9" class="text-danger"></span>
+                </div>
+                <div class="form-group mb-4">
+                    <label asp-for="Question10" class="form-label fs-5">How do you plan to introduce the new pet to your home?</label>
+                    <textarea asp-for="Question10" class="form-control fs-5 short-textarea"></textarea>
+                    <span asp-validation-for="Question10" class="text-danger"></span>
+                </div>
+                <div class="form-group text-center mb-4">
+                    <input type="submit" value="Apply for adoption" class="btn btn-success w-100 p-2 fs-5" />
+                </div>
+            </form>
+        </div>
+
+        <!-- Right Column: Images -->
+        <div class="col-md-6">
+            <div class="d-flex flex-column align-items-center">
+                <img width="500px" src="https://img.freepik.com/free-vector/father-playing-with-daughter_23-2148481220.jpg?ga=GA1.1.1174151940.1715018470&semt=ais_hybrid" />
+                <img width="500px" src="https://img.freepik.com/free-vector/adopt-pet-concept_23-2148537912.jpg?ga=GA1.1.1174151940.1715018470&semt=ais_hybrid" alt="Image 1" class="img-fluid mb-3">
+                <img width="500px" src="https://img.freepik.com/free-vector/adopt-from-shelter-give-pet-home_23-2148521774.jpg?ga=GA1.1.1174151940.1715018470&semt=ais_hybrid" alt="Image 3" class="img-fluid mb-3">
+                <!-- Add more images as needed -->
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
+
+<style>
+    .short-textarea {
+        height: 80px; /* Adjust height as needed */
+        resize: vertical; /* Allows vertical resizing only */
+    }
+</style>

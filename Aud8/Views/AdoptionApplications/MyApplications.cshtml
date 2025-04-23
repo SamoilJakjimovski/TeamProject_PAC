@@ -1,0 +1,139 @@
+﻿@using Microsoft.Extensions.Options
+@model IEnumerable<PetAdoptionCenter.Domain.Models.AdoptionApplication>
+@inject IOptions<PetAdoptionCenter.Domain.DomainEntities.StripeSettings> Stripe
+@{
+    ViewData["Title"] = "MyApplications";
+}
+
+<table class="table table-striped table-bordered" style="width: 90%; margin-left: 5%;">
+    <thead class="thead">
+        <tr>
+            <th class="text-center" width="17%">
+                Adoption status
+            </th>
+            <th class="text-center" ">
+                Shelter name
+            </th >
+            <th width="5%" class="text-center">
+                Image
+            </th>
+            <th class="text-center">
+                Pet name
+            </th>
+            <th width="8%" class="text-center">
+                Breed
+            </th>
+            <th class="text-center" width="11%">
+                Date
+            </th>
+            <th class="text-center" width="8%">Age</th>
+            
+            <th width="12%" class="text-center">Payment</th>
+            <th width="9%">
+                
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td class="text-center d-flex justify-content-center" style="padding: 15px 0">
+                        @if (item.AdoptionApplicationStatus == PetAdoptionCenter.Domain.enums.AdoptionApplicationStatus.APPROVED)
+                        {
+                            <span style="width:fit-content; border-radius: 10px; padding: 0px 9px;" class="bg-success text-white d-flex">@item.AdoptionApplicationStatus</span>
+                        }
+                        else if (item.AdoptionApplicationStatus == PetAdoptionCenter.Domain.enums.AdoptionApplicationStatus.PENDING_FOR_PAYEMENT)
+                        {
+                        <span style="width:fit-content;border-radius: 10px; padding: 0px 9px;" class="bg-primary text-white d-flex">@item.AdoptionApplicationStatus</span>
+                        }
+                        else
+                        {
+                        <span style="width:fit-content;border-radius: 10px; padding: 0px 9px;" class="bg-warning text-white d-flex">@item.AdoptionApplicationStatus</span>
+                        }
+
+                </td>
+                <td class="text-center">
+                    @* @Html.DisplayFor(modelItem => item.Adopter.FirstName) *@
+                    @Html.DisplayFor(model => item.Pet.Shelter.FirstName)
+                </td>
+                <td class="text-center">
+                    <img width="37px;" height="37px;" style="border: 1px solid lightgray; border-radius: 7px;" src="@item.Pet.PhotoUrl"/>
+                </td>
+                <td class="text-center">
+                    @item.Pet.Name
+                </td>
+                <td class="text-center">
+                    @item.Pet.PetType
+                </td>
+                <td class="text-center">
+                    @DateTime.Now.ToString("MMMM dd, yyyy")
+                </td>
+                <td class="text-center">
+                    @item.Pet.Age years old
+                </td>
+                <td class="text-center">
+                        @if (item.AdoptionApplicationStatus == PetAdoptionCenter.Domain.enums.AdoptionApplicationStatus.PENDING_FOR_PAYEMENT)
+                        {
+                            <form asp-controller="AdoptionApplications" asp-route-id="@item.Id" asp-action="PayOrder" method="post">
+                                <button type="button" id="stripe-button" class="btn btn-success text-white m-0" style="width: 100%">
+                                            Pay $@item.Pet.Price
+                                </button>
+                                <script src="https://checkout.stripe.com/checkout.js"></script>
+                                <script>
+                                    document.getElementById('stripe-button').addEventListener('click', function () {
+                                        var handler = StripeCheckout.configure({
+                                            key: '@Stripe.Value.PublishableKey',
+                                            locale: 'auto',
+                                            token: function (token) {
+                                                var form = document.createElement('form');
+                                                form.method = 'POST';
+                                                form.action = '@Url.Action("PayOrder", "AdoptionApplications", new { id = item.Id })';
+
+                                                var input = document.createElement('input');
+                                                input.type = 'hidden';
+                                                input.name = 'stripeToken';
+                                                input.value = token.id;
+                                                form.appendChild(input);
+
+                                                document.body.appendChild(form);
+                                                form.submit();
+                                            }
+                                        });
+
+                                        handler.open({
+                                            name: 'EShop Application Payment',
+                                            description: 'Payment for pet adoption',
+                                            amount: @(item.Pet.Price * 100),
+                                        });
+                                    });
+                                </script>
+                            </form>
+                        }
+                        else if (item.AdoptionApplicationStatus == PetAdoptionCenter.Domain.enums.AdoptionApplicationStatus.APPROVED)
+                        {
+                            <button class="btn btn-outline-success" disabled="true" style="width:100%">
+                                <span class="">Done</span>
+                                <i class="bi bi-check-lg"></i>
+                            </button>
+                        }
+                        else
+                        {
+                            <button class="btn btn-outline-danger" disabled="true" style="width: 100%">
+                                Not approved
+                                <i class="bi bi-x-circle"></i>
+                            </button>
+                        }
+                </td>
+                <td class="text-center">
+                    <a href="@Url.Action("Details", "AdoptionApplications", new { id = item.Id })" class="btn btn-light me-2" style="border: 1px solid gray;">
+                        <i class="bi bi-file-earmark-text"></i>
+                    </a>
+                    <a href="@Url.Action("Delete", "AdoptionApplications", new { id = item.Id })" class="btn btn-danger">
+                        <i class="bi bi-trash"></i>
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

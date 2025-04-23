@@ -1,0 +1,128 @@
+﻿@model PetAdoptionCenter.Domain.Models.AdoptionApplication
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1 class="text-center mb-4">Application Details</h1>
+<h5 class="text-center mb-5">*This application has been reviewed by the current owner.</h5>
+
+<div class="container">
+    <div class="row">
+        <!-- Left Column: Application Details -->
+        <div class="col-md-6">
+            <div class="form-group mb-4" style="text-align: right;">
+                <div style="display: flex; justify-content: flex-start; align-items: center; gap: 1rem;">
+                    <h4 class="fs-5" style="margin-bottom: 0;">Status:</h4>
+                    @if (@Model.AdoptionApplicationStatus == PetAdoptionCenter.Domain.enums.AdoptionApplicationStatus.APPROVED)
+                    {
+                        <span style="width:fit-content; border-radius: 10px; padding: 2px 15px;" class="bg-success text-white d-flex fs-5">@Model.AdoptionApplicationStatus</span>
+                    }
+                    else if (@Model.AdoptionApplicationStatus == PetAdoptionCenter.Domain.enums.AdoptionApplicationStatus.PENDING_FOR_PAYEMENT)
+                    {
+                        <span style="width:fit-content;border-radius: 10px; padding: 2px 15px;" class="bg-primary text-white d-flex fs-5">@Model.AdoptionApplicationStatus</span>
+                    }
+                    else
+                    {
+                        <span style="width:fit-content;border-radius: 10px; padding: 2px 15px;" class="bg-warning text-white d-flex fs-5">@Model.AdoptionApplicationStatus</span>
+                    }
+                </div>
+            </div>
+            <div class="form-group mb-4" style="text-align: right;">
+                <div style="display: flex; justify-content: flex-start; align-items: center; gap: 1rem;">
+                    <h4 class="fs-5" style="margin-bottom: 0;">Adopter Email:</h4>
+                    <p class="fs-5" style="margin-bottom: 0;">@Model.Adopter.LastName</p>
+                </div>
+            </div>
+            <div class="form-group mb-4" style="text-align: right;">
+                <div style="display: flex; justify-content: flex-start align-items: center; gap: 1rem;">
+                    <h4 class="fs-5" style="margin-bottom: 0;">Pet ID:</h4>
+                    <p class="fs-5" style="margin-bottom: 0;">@Model.Pet.Id</p>
+                </div>
+            </div>
+
+
+
+
+            <div style="position: relative; text-align: center; margin: 70px 0;">
+                <hr style="border: 0; height: 2px; background: black; margin: 0;">
+                <span style="
+                    position: absolute;
+                    top: -0.9em; /* Adjust to vertically center the text */
+                    left: 50%;
+                    transform: translateX(-50%);
+                    background: #fff;
+                    padding: 0 10px;
+font-weight: bold;
+font-size: 20px;
+                ">
+                    Questions & Answers
+            </span>
+            </div>
+
+
+            <div class="form-group mb-4">
+                <label class="form-label fs-5">Why are you interested in adopting a pet?</label>
+                <input type="text" class="form-control fs-5" value="@Model.Question1" disabled />
+            </div>
+            <div class="form-group mb-4">
+                <label class="form-label fs-5">Have you owned pets before?</label>
+                <input type="text" class="form-control fs-5" value="@Model.Question2" disabled />
+            </div>
+            <div class="form-group mb-4">
+                <label class="form-label fs-5">Do you have any other pets? If so, what are they?</label>
+                <input type="text" class="form-control fs-5" value="@Model.Question3" disabled />
+            </div>
+            <div class="form-group mb-4">
+                <label class="form-label fs-5">What is your living situation (e.g., house, apartment)?</label>
+                <input type="text" class="form-control fs-5" value="@Model.Question4" disabled />
+            </div>
+            <div class="form-group mb-4">
+                <label class="form-label fs-5">How many people live in your household and what are their ages?</label>
+                <input type="text" class="form-control fs-5" value="@Model.Question5" disabled />
+            </div>
+            <div class="form-group mb-4">
+                <label class="form-label fs-5">What is your work schedule like and how many hours will the pet be alone?</label>
+                <input type="text" class="form-control fs-5" value="@Model.Question6" disabled />
+            </div>
+            <div class="form-group mb-4">
+                <label class="form-label fs-5">Do you have a plan for the pet’s care during vacations or emergencies?</label>
+                <input type="text" class="form-control fs-5" value="@Model.Question7" disabled />
+            </div>
+            <div class="form-group mb-4">
+                <label class="form-label fs-5">Are you prepared for the financial costs of pet ownership, including food, veterinary care, and other expenses?</label>
+                <input type="text" class="form-control fs-5" value="@Model.Question8" disabled />
+            </div>
+            <div class="form-group mb-4">
+                <label class="form-label fs-5">How will you handle behavioral issues or training needs?</label>
+                <input type="text" class="form-control fs-5" value="@Model.Question9" disabled />
+            </div>
+            <div class="form-group mb-4">
+                <label class="form-label fs-5">How do you plan to introduce the new pet to your home?</label>
+                <input type="text" class="form-control fs-5" value="@Model.Question10" disabled />
+            </div>
+        </div>
+
+        <!-- Right Column: Placeholder for Images or Other Content -->
+        <div class="col-md-6">
+            <!-- Example placeholder for additional content or images -->
+            <div class="d-flex flex-column align-items-center">
+                <img width="500px" src="https://img.freepik.com/free-vector/adopt-pet-concept_23-2148535791.jpg?ga=GA1.1.1174151940.1715018470&semt=ais_hybrid" alt="Image" class="img-fluid mb-3">
+                <img width="500px" src="https://img.freepik.com/free-vector/adopt-pet-illustration-concept_23-2148537110.jpg?ga=GA1.1.1174151940.1715018470&semt=ais_hybrid" alt="Image" class="img-fluid mb-3">
+                <img width="500px" src="https://img.freepik.com/free-vector/never-leave-your-pet-with-woman-cat_23-2148521687.jpg?ga=GA1.1.1174151940.1715018470&semt=ais_hybrid" alt="Image" class="img-fluid mb-3">
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
+
+<style>
+    .form-control {
+        height: auto; /* Adjust height as needed */
+    }
+</style>

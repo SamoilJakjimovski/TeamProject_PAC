@@ -1,0 +1,75 @@
+﻿@page
+@model LoginModel
+
+@{
+    ViewData["Title"] = "Login";
+}
+
+<div class="row" style="display: flex; justify-content: center; align-items: center;">
+    <div class="col-md-4">
+        <section style="box-shadow: 0 15px 15px rgba(0, 0, 0, 0.1); padding: 55px;">
+            <h1 style="color: #03317A">@ViewData["Title"]</h1>
+            <form id="account" method="post">
+                <p>
+                    <a style="color: #03317A; text-decoration: none;" asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">Dont have an account yet? <span class="fw-bold" style="text-decoration: underline;">Sign up</span></a>
+                </p>
+                <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
+                <div class="form-floating mb-3">
+                    <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="name@example.com" />
+                    <label asp-for="Input.Email" class="form-label">Email</label>
+                    <span asp-validation-for="Input.Email" class="text-danger"></span>
+                </div>
+                <div class="form-floating mb-3">
+                    <input asp-for="Input.Password" class="form-control" autocomplete="current-password" aria-required="true" placeholder="password" />
+                    <label asp-for="Input.Password" class="form-label">Password</label>
+                    <span asp-validation-for="Input.Password" class="text-danger"></span>
+                </div>
+                <div class="checkbox mb-3">
+                    <label asp-for="Input.RememberMe" class="form-label">
+                        <input class="form-check-input" asp-for="Input.RememberMe" />
+                        @Html.DisplayNameFor(m => m.Input.RememberMe)
+                    </label>
+                </div>
+                <div>
+                    <button style="background-color: #03317A; color: whitesmoke;" id="login-submit" type="submit" class="w-100 btn btn-lg fw-bolder">Log in</button>
+                </div>
+                @* <div>
+                     <p>
+                        <a class="fw-bold" style="color: #03317A; text-decoration: underline;" id="forgot-password" asp-page="./ForgotPassword">Forgot your password?</a>
+                    </p>
+                    
+                    <p>
+                        <a class="fw-md-bold" style="color: #03317A; text-decoration: underline;" id="resend-confirmation" asp-page="./ResendEmailConfirmation">Resend email confirmation</a>
+                    </p>
+                    </div>*@
+
+                <div style="margin: 10px 0; width: 100%; height: 20px; border-bottom: 1px solid lightgray; text-align: center">
+                    <span style="font-size: 20px; background-color: white;">
+                    <span style="font-size: 14px; background-color: white; color: gray; padding: 0 9px;">
+                        Or login with <!--Padding is optional-->
+                    </span>
+                </div>
+
+                <div style="display: flex; margin-top: 25px; justify-content: space-between; width: 100%;">
+                    <div style="background-color: #f7eded; width: 48%; padding: 10px; border: 1px solid red; border-radius: 8px; display: flex; justify-content: center; align-items: center; gap: 5px;">
+                        <img width="15px;" src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Google_%22G%22_logo.svg/1200px-Google_%22G%22_logo.svg.png" />
+                        <span style="color: darkred;">Google</span>
+                    </div>
+                    <div style="background-color: #e6e8f5; width: 48%; padding: 10px; border: 1px solid blue; border-radius: 8px; display: flex; justify-content: center; align-items: center; gap: 5px;">
+                        <img width="15px;" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQiXN9xSEe8unzPBEQOeAKXd9Q55efGHGB9BA&s" />
+                        <span style="color: darkblue;">Facebook</span>
+                    </div>
+                </div>
+            </form>
+        </section>
+    </div>
+    <div class="col-md-6 col-md-offset-2">
+        <section>
+            <img width="90%" src="https://img.freepik.com/free-vector/adopt-pet-concept-message-with-cute-dog_23-2148512838.jpg?t=st=1724270527~exp=1724274127~hmac=be88d166866fa63065eb4967a7d24f7921fa01cce99e4fd4895075a9b62fcd2c&w=740" />
+        </section>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

@@ -1,0 +1,43 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using domain.Identity
+@inject SignInManager<PetAdoptionCenterUser> SignInManager
+@inject UserManager<PetAdoptionCenterUser> UserManager
+
+<ul class="navbar-nav">
+@if (SignInManager.IsSignedIn(User))
+{
+
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-area="" asp-controller="Pets" asp-action="Index">Pets</a>
+        </li>
+
+        @if (User.IsInRole("Shelter"))
+        {
+            var userId = UserManager.GetUserId(User);
+            <li class="nav-item">
+                <a class="nav-link text-dark" asp-area="" asp-controller="Pets" asp-action="MyPets" asp-route-id="@userId">My Pets</a>
+            </li>
+        }
+        @if (User.IsInRole("Adopter"))
+        {
+            var userId = UserManager.GetUserId(User);
+            <li class="nav-item">
+                <a class="nav-link text-dark" asp-area="" asp-controller="AdoptionApplications" asp-action="MyApplications" asp-route-id="@userId">My Applications</a>
+            </li>
+        }
+    <li class="nav-item">
+        <a  class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">@User.Identity?.Name</a>
+    </li>
+    <li class="nav-item">
+        <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+            <button type="submit" class="btn btn-outline-danger p-1 mt-1">Logout</button>
+        </form>
+    </li>
+}
+else
+{
+    <li class="nav-item">
+            <a class="btn btn-outline-success p-1 mt-1" asp-area="Identity" asp-page="/Account/Login">Login</a>
+    </li>
+}
+</ul>

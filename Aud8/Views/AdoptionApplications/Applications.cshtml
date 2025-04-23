@@ -1,0 +1,81 @@
+﻿@using PetAdoptionCenter.Domain.enums
+@model IEnumerable<PetAdoptionCenter.Domain.Models.AdoptionApplication>
+
+
+<table class="table table-striped table-bordered" style="width: 90%; margin-left: 5%;">
+    <thead>
+        <tr>
+            <th class="text-center" width="17%">
+                Adoption Status
+            </th>
+            <th class="text-center">
+                Adopter email
+            </th>
+            <th class="text-center">
+                Pet @Html.DisplayNameFor(model => model.Pet.Name)
+            </th>
+            <th class="text-center">
+                Pet Breed
+            </th>
+            <th class="text-center">
+                Pet Age
+            </th>
+            <th width="12%"></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td class="text-center d-flex justify-content-center" style="padding: 15px 0">
+                    @if (item.AdoptionApplicationStatus == PetAdoptionCenter.Domain.enums.AdoptionApplicationStatus.APPROVED)
+                    {
+                        <span style="width:fit-content; border-radius: 10px; padding: 0px 9px;" class="bg-success text-white d-flex">@item.AdoptionApplicationStatus</span>
+                    }
+                    else if (item.AdoptionApplicationStatus == PetAdoptionCenter.Domain.enums.AdoptionApplicationStatus.PENDING_FOR_PAYEMENT)
+                    {
+                        <span style="width:fit-content;border-radius: 10px; padding: 0px 9px;" class="bg-primary text-white d-flex">@item.AdoptionApplicationStatus</span>
+                    }
+                    else
+                    {
+                        <span style="width:fit-content;border-radius: 10px; padding: 0px 9px;" class="bg-warning text-white d-flex">@item.AdoptionApplicationStatus</span>
+                    }
+
+                </td>
+                <td class="text-center">
+                    @Html.DisplayFor(modelItem => item.Adopter.UserName)
+                </td>
+
+                <td class="text-center">
+                    @Html.DisplayFor(modelItem => item.Pet.Name)
+                </td>
+
+                <td class="text-center">
+                    @Html.DisplayFor(modelItem => item.Pet.PetType)
+                </td>
+
+                <td class="text-center">
+                    @Html.DisplayFor(modelItem => item.Pet.Age) years old
+                </td>
+
+                <td class="text-center">
+                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-light me-2" style="border: 1px solid gray;">
+                        <i class="bi bi-file-earmark-text"></i>
+                    </a>
+                    @if (item.Pet.PetStatus == PetStatus.ADOPTED)
+                    {
+                        <a asp-action="Accept" asp-route-id="@item.Id" class="btn btn-success disabled">
+                            Accept
+                            <i class="bi bi-check-circle"></i>
+                        </a>
+                    }else{
+                        <a asp-action="Accept" asp-route-id="@item.Id" class="btn btn-success">Accept
+                            <i class="bi bi-check-circle"></i>
+                        </a>
+                    }
+                    
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

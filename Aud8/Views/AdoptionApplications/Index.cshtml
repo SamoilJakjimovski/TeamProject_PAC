@@ -1,0 +1,107 @@
+﻿@model IEnumerable<PetAdoptionCenter.Domain.Models.AdoptionApplication>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.AdoptionApplicationStatus)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Adopter)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Pet)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Question1)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Question2)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Question3)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Question4)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Question5)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Question6)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Question7)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Question8)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Question9)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Question10)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.AdoptionApplicationStatus)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Adopter.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Pet.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Question1)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Question2)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Question3)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Question4)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Question5)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Question6)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Question7)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Question8)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Question9)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Question10)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

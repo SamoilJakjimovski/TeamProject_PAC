@@ -1,0 +1,126 @@
+﻿@page
+@model RegisterModel
+
+@{
+    ViewData["Title"] = "Register";
+}
+
+<div class="row" style="display: flex; justify-content: center; align-items: center; padding:0 20px;">
+    
+    <div class="col-md-6 col-md-offset-2">
+        <section>
+            <img width="80%" src="https://img.freepik.com/free-vector/adopt-pet-with-boy-dog_23-2148519342.jpg?t=st=1724274137~exp=1724277737~hmac=1ad3011f6ab42dea820970a9ad0b3e8f46bff2b6a489b79ed4f7bdb5957ddaf2&w=740" />
+        </section>
+    </div>
+
+    <div class="col-md-6">
+        <section style="box-shadow: 0 15px 15px rgba(0, 0, 0, 0.1); padding: 30px; background-color: white; border-radius: 8px;">
+            <h1 style="color: #F95556;">@ViewData["Title"]</h1>
+            <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
+
+                <p>
+                    <a style="color: black; text-decoration: none;" asp-page="./Login" asp-route-returnUrl="@Model.ReturnUrl">Already have an account? <span class="fw-bold" style="text-decoration: underline; color: #F95556">Log in</span></a>
+                </p>
+
+                <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
+
+                <!-- First Name and Last Name in the Same Row -->
+                <div class="row mb-3">
+                    <div class="col-md-6" style="padding-right: 10px;">
+                        <div class="form-floating">
+                            <input asp-for="Input.FirstName" class="form-control" autocomplete="given-name" aria-required="true" placeholder="First Name" style="width: 100%;" />
+                            <label asp-for="Input.FirstName">First Name</label>
+                            <span asp-validation-for="Input.FirstName" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-6" style="padding-left: 10px;">
+                        <div class="form-floating">
+                            <input asp-for="Input.LastName" class="form-control" autocomplete="family-name" aria-required="true" placeholder="Last Name" style="width: 100%;" />
+                            <label asp-for="Input.LastName">Last Name</label>
+                            <span asp-validation-for="Input.LastName" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Email and Address in the Same Row -->
+                <div class="row mb-3">
+                    <div class="col-md-6" style="padding-right: 10px;">
+                        <div class="form-floating">
+                            <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="name@example.com" style="width: 100%;" />
+                            <label asp-for="Input.Email">Email</label>
+                            <span asp-validation-for="Input.Email" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-6" style="padding-left: 10px;">
+                        <div class="form-floating">
+                            <input asp-for="Input.Address" class="form-control" autocomplete="address" aria-required="true" placeholder="Address" style="width: 100%;" />
+                            <label asp-for="Input.Address">Address</label>
+                            <span asp-validation-for="Input.Address" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Role Dropdown -->
+                <div class="form-floating mb-3">
+                    <select asp-for="Input.Role" class="form-control">
+                        <option value="">Select a Role</option>
+                        @foreach (var role in ViewData["Roles"] as List<string>)
+                        {
+                            <option value="@role">@role</option>
+                        }
+                    </select>
+                    <label asp-for="Input.Role">Role</label>
+                    <span asp-validation-for="Input.Role" class="text-danger"></span>
+                </div>
+
+                <!-- Password and Confirm Password in the Same Row -->
+                <div class="row mb-3">
+                    <div class="col-md-6" style="padding-right: 10px;">
+                        <div class="form-floating">
+                            <input asp-for="Input.Password" class="form-control" autocomplete="new-password" aria-required="true" placeholder="Password" style="width: 100%;" />
+                            <label asp-for="Input.Password">Password</label>
+                            <span asp-validation-for="Input.Password" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-6" style="padding-left: 10px;">
+                        <div class="form-floating">
+                            <input asp-for="Input.ConfirmPassword" class="form-control" autocomplete="new-password" aria-required="true" placeholder="Confirm Password" style="width: 100%;" />
+                            <label asp-for="Input.ConfirmPassword">Confirm Password</label>
+                            <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+
+                
+                <button id="registerSubmit" type="submit" class="w-100 btn btn-lg fw-bold" style="background-color: #F95556; color: white;">Register</button>
+            </form>
+
+            <div style="margin: 10px 0; width: 100%; height: 20px; border-bottom: 1px solid lightgray; text-align: center">
+                <span style="font-size: 20px; background-color: white;">
+                    <span style="font-size: 14px; background-color: white; color: gray; padding: 0 9px;">
+                        Or register with <!--Padding is optional-->
+                    </span>
+            </div>
+
+            <div style="display: flex; margin-top: 25px; justify-content: space-between; width: 100%;">
+                <div style="background-color: #f7eded; width: 48%; padding: 10px; border: 1px solid red; border-radius: 8px; display: flex; justify-content: center; align-items: center; gap: 5px;">
+                    <img width="15px;" src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Google_%22G%22_logo.svg/1200px-Google_%22G%22_logo.svg.png" />
+                    <span style="color: darkred;">Google</span>
+                </div>
+                <div style="background-color: #e6e8f5; width: 48%; padding: 10px; border: 1px solid blue; border-radius: 8px; display: flex; justify-content: center; align-items: center; gap: 5px;">
+                    <img width="15px;" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQiXN9xSEe8unzPBEQOeAKXd9Q55efGHGB9BA&s" />
+                    <span style="color: darkblue;">Facebook</span>
+                </div>
+            </div>
+        </section>
+    </div>
+
+
+
+
+            
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

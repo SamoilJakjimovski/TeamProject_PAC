@@ -1,0 +1,29 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+
+
+
+@* stilot e namesten za da bide tekstot nad slikata, samo treba da se izbere soodvetna slika. *@
+<div class="d-flex" style="justify-content: center; align-items: center;">
+    <div style="margin: 0; width: 600px">
+        <h2 style="margin-bottom: 0; font-size: 55px;" class="fw-bold">Preparing your home</h2>
+        <h1 style="margin-top: 0; font-size: 70px;" class="fw-bold text-warning">For your buddy</h1>
+        <p style="width:80%; margin: 30px 0; font-size: 17px;">
+            Adopting a pet is a rewarding experience that brings joy and companionship into your life. 
+            By choosing to adopt, you give a loving home to an animal in need, offering them a second
+            chance at happiness. 
+        </p>
+
+        <a asp-controller="Pets" asp-action="Index" class="btn btn-warning" style="border-radius: 25px; padding: 10px 35px; font-size: 19px;">Learn more</a>
+
+        @if (!User.Identity.IsAuthenticated)
+        {
+           <a asp-area="Identity" asp-page="/Account/Register" class="btn btn-outline-success ms-3" style="border-radius: 25px; padding: 10px 35px; font-size: 19px;">Create an account</a>
+        }
+        
+    </div>
+    <img style="margin: 0;" width="700px" src="https://img.freepik.com/free-vector/adopt-pet-concept_23-2148523582.jpg?t=st=1724537746~exp=1724541346~hmac=5a42abf3533cade1f4a5fe6bfc56d30968ed8fdbcf588b9a860582adf0be0737&w=900" alt="Alternate Text" />
+
+</div>
