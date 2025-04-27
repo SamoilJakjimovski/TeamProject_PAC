@@ -14,7 +14,7 @@ namespace PetAdoptionCenter.Repository
         public ApplicationDbContext CreateDbContext(string[] args)
         {
             var optionsBuilder = new DbContextOptionsBuilder<ApplicationDbContext>();
-            optionsBuilder.UseSqlServer("Server=(localdb)\\MSSQLLocalDB;Initial Catalog=TeamProject_PAC;Integrated Security=True;Connect Timeout=30;Encrypt=False;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False");
+            optionsBuilder.UseSqlServer("Server=database-pac-aws.c63m02oekbza.us-east-1.rds.amazonaws.com;Database=PetAdoptionCenter;User Id=admin;Password=awsPac2025;TrustServerCertificate=True;");
             return new ApplicationDbContext(optionsBuilder.Options);
         }
     }

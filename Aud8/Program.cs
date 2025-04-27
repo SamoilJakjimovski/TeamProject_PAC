@@ -50,6 +50,8 @@ builder.Services.AddControllers()
                 options.JsonSerializerOptions.PropertyNamingPolicy = null;
             });
 
+builder.WebHost.UseUrls("http://*:5000");
+
 var app = builder.Build();
 
 
