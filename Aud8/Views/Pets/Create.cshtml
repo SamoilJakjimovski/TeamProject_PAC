@@ -86,6 +86,22 @@
                     <input type="submit" value="Create" class="btn btn-warning w-100" style="font-size: 1.2rem; border: 1px solid gray; color: black" />
                 </div>
             </div>
+
+            @{
+                var isAdopter = ViewData["IsAdopter"] != null && (bool)ViewData["IsAdopter"];
+            }
+
+            @if (isAdopter)
+            {
+                <div class="form-group w-100">
+                    <label for="LoggedShelterId" class="control-label">Select Shelter to Offer Pet</label>
+                    <select id="LoggedShelterId" name="LoggedShelterId" class="form-control" asp-items="ViewBag.Shelters" style="font-size: 1.2rem;"></select>
+                </div>
+            }
+            else
+            {
+                <input type="hidden" name="LoggedShelterId" value="@ViewData["LoggedShelterId"]" />
+            }
         </form>
 
         <!-- Three small images in a row -->
