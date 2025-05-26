@@ -78,16 +78,40 @@ namespace PetAdoptionCenter.Web.Controllers
         }
 
         // GET: Pets/Create
-        [Authorize(Roles = "Shelter")]
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            //ViewData["LoggedShelterId"] = User.FindFirstValue(ClaimTypes.NameIdentifier) ?? "";
+            var user = await _userManager.GetUserAsync(User);
+            var isAdopter = await _userManager.IsInRoleAsync(user, "Adopter");
+
+            ViewData["IsAdopter"] = isAdopter;
 
             ViewData["PetType"] = new SelectList(
-                                        Enum.GetValues(typeof(PetType))
-                                        .Cast<PetType>()
-                                        .Select(e => new { Id = (int)e, Name = e.ToString() }),
-                                        "Id", "Name");
+                Enum.GetValues(typeof(PetType))
+                    .Cast<PetType>()
+                    .Select(e => new { Id = (int)e, Name = e.ToString() }),
+                "Id", "Name");
+
+            if (isAdopter)
+            {
+                var allUsers = await _userManager.Users.ToListAsync();
+
+                var shelters = new List<PetAdoptionCenterUser>();
+                foreach (var u in allUsers)
+                {
+                    if (await _userManager.IsInRoleAsync(u, "Shelter"))
+                    {
+                        shelters.Add(u);
+                    }
+                }
+
+                ViewData["Shelters"] = new SelectList(
+                    shelters.Select(s => new { s.Id, FullName = s.FirstName + " " + s.LastName }),
+                    "Id", "FullName");
+            }
+            else
+            {
+                ViewData["LoggedShelterId"] = user.Id;
+            }
 
             return View();
         }
@@ -96,20 +120,63 @@ namespace PetAdoptionCenter.Web.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult Create([Bind("Name,Age,PetType,Breed,Sex,Description,IsHouseTrained,FavouriteThings,HomeRequirements,Price,PhotoUrl,Id")] Pet pet)
+        [Authorize(Roles = "Shelter,Adopter")]
+        public async Task<IActionResult> Create([Bind("Name,Age,PetType,Breed,Sex,Description,IsHouseTrained,FavouriteThings,HomeRequirements,Price,PhotoUrl,Id")] Pet pet, string LoggedShelterId)
         {
+            var loggedInUserId = User.FindFirstValue(ClaimTypes.NameIdentifier) ?? "";
+
             if (ModelState.IsValid)
             {
-                var loggedInUser = User.FindFirstValue(ClaimTypes.NameIdentifier) ?? "";
-                _petService.CreateNewPet(loggedInUser, pet);
-                return RedirectToAction("MyPets", new { id = pet.ShelterId });
+                pet.ShelterId = string.IsNullOrEmpty(LoggedShelterId) ? loggedInUserId : LoggedShelterId;
+
+                _petService.CreateNewPet(pet.ShelterId, pet);
+
+                var isAdopter = await _userManager.IsInRoleAsync(await _userManager.GetUserAsync(User), "Adopter");
+
+                if (isAdopter)
+                {
+                    return RedirectToAction("Index", "Pets"); 
+                }
+
+                return RedirectToAction("MyPets", new { id = pet.ShelterId }); 
             }
-            
-            
-            //ViewData["ShelterId"] = new SelectList(_context.Users, "Id", "Id", pet.ShelterId);
+
+            ViewData["PetType"] = new SelectList(
+                Enum.GetValues(typeof(PetType))
+                    .Cast<PetType>()
+                    .Select(e => new { Id = (int)e, Name = e.ToString() }),
+                "Id", "Name");
+
+            var currentUser = await _userManager.GetUserAsync(User);
+            var isCurrentUserAdopter = await _userManager.IsInRoleAsync(currentUser, "Adopter");
+            ViewData["IsAdopter"] = isCurrentUserAdopter;
+
+            if (isCurrentUserAdopter)
+            {
+                var allUsers = await _userManager.Users.ToListAsync();
+                var shelters = new List<PetAdoptionCenterUser>();
+
+                foreach (var u in allUsers)
+                {
+                    if (await _userManager.IsInRoleAsync(u, "Shelter"))
+                    {
+                        shelters.Add(u);
+                    }
+                }
+
+                ViewData["Shelters"] = new SelectList(
+                    shelters.Select(s => new { s.Id, FullName = s.FirstName + " " + s.LastName }),
+                    "Id", "FullName");
+            }
+            else
+            {
+                ViewData["LoggedShelterId"] = loggedInUserId;
+            }
+
             return View(pet);
         }
+
+
 
         // GET: Pets/Edit/5
         [Authorize(Roles = "Shelter")]

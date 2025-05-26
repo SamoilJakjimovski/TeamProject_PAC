@@ -1,8 +1,25 @@
-﻿@model IEnumerable<PetAdoptionCenter.Domain.Models.Pet>
+﻿@using Microsoft.AspNetCore.Identity
+@using domain.Identity
+@model IEnumerable<PetAdoptionCenter.Domain.Models.Pet>
 
 @{
     ViewData["Title"] = "Index";
 }
+@inject UserManager<PetAdoptionCenterUser> UserManager
+@{
+    var currentUser = await UserManager.GetUserAsync(User);
+    var isAdopter = await UserManager.IsInRoleAsync(currentUser, "Adopter");
+}
+
+@if (isAdopter)
+{
+    <div class="d-flex justify-content-end mb-3 me-5">
+        <a href="@Url.Action("Create", "Pets")" class="btn btn-success" style="font-size: 1.1rem;">
+            <i class="bi bi-plus-circle"></i> Offer a Pet for Adoption
+        </a>
+    </div>
+}
+
 
 <div class="d-flex justify-content-center mb-4">
     <div class="input-group w-50 mb-2 me-2" style="border-radius: 15px; overflow: hidden">
